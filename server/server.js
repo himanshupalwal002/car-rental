@@ -6,6 +6,7 @@ import authRoutes from './routes/auth.js';
 import carRoutes from './routes/cars.js';
 import bookingRoutes from './routes/bookings.js';
 import penaltyRoutes from './routes/penalties.js';
+import trackingRoutes from './routes/tracking.js';
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/penalties', penaltyRoutes);
+app.use('/api/tracking', trackingRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
