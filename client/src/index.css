@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --ink: #1a1033;
+  --cream: #fff4d6;
+  --pink: #ff3d9a;
+  --yellow: #ffd23f;
+  --teal: #00c2a8;
+  --blue: #3a86ff;
+  --purple: #7b2cbf;
+  --orange: #ff7b00;
+  --red: #e0143c;
+  --green: #0a8f5a;
+  --display: 'Bungee', 'Arial Black', Impact, sans-serif;
+  --body: 'Poppins', system-ui, 'Segoe UI', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  background-color: var(--cream);
+  background-image: radial-gradient(var(--pink) 1.6px, transparent 1.6px),
+    radial-gradient(var(--blue) 1.6px, transparent 1.6px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 8% 12%, rgba(255, 210, 63, 0.55), transparent 38%),
+    radial-gradient(circle at 92% 18%, rgba(255, 61, 154, 0.4), transparent 38%),
+    radial-gradient(circle at 50% 100%, rgba(0, 194, 168, 0.4), transparent 45%);
+}
+
+::selection {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+a {
+  color: var(--purple);
+  font-weight: 600;
+}
+
+a:hover {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 24px;
+  background: linear-gradient(90deg, var(--purple), var(--pink) 55%, var(--orange));
+  border-bottom: 5px solid var(--ink);
+  box-shadow: 0 6px 0 var(--yellow);
+}
+
+nav a {
+  display: inline-block;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  transition: transform 0.15s;
+}
+
+nav a:hover {
+  background: var(--yellow);
+  color: var(--ink);
+  border-color: var(--ink);
+  transform: rotate(-2deg) scale(1.05);
+}
+
+nav .right {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Page */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+h1,
+h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+h2 {
+  display: inline-block;
+  margin: 0 0 22px;
+  padding: 6px 16px;
+  font-size: 22px;
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: rotate(-1deg);
+}
+
+h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+p {
+  margin: 0 0 12px;
+}
+
+/* Cards and layout */
+.card {
+  background: #ffffff;
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 22px;
+  box-shadow: 8px 8px 0 var(--pink);
+  animation: pop 0.35s ease both;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 var(--pink);
+}
+
+form.card:hover {
+  transform: none;
+  box-shadow: 8px 8px 0 var(--pink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 30px;
+}
+
+.grid .card {
+  margin-bottom: 0;
+}
+
+.grid .card:nth-child(3n + 2) {
+  box-shadow: 8px 8px 0 var(--teal);
+}
+
+.grid .card:nth-child(3n + 2):hover {
+  box-shadow: 11px 11px 0 var(--teal);
+}
+
+.grid .card:nth-child(3n) {
+  box-shadow: 8px 8px 0 var(--blue);
+}
+
+.grid .card:nth-child(3n):hover {
+  box-shadow: 11px 11px 0 var(--blue);
+}
+
+.form-narrow {
+  max-width: 380px;
+}
+
+/* Forms */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 4px 0 12px;
+  border: 3px solid var(--ink);
+  border-radius: 10px;
+  background: #fffdf5;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+}
