@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api';
+import { useDialog } from '../useDialog';
 
 const fmt = (d) => new Date(d).toLocaleDateString();
 
 export default function MyBookings() {
+  const { ask, dialog } = useDialog();
   const [bookings, setBookings] = useState([]);
   const [penalties, setPenalties] = useState([]);
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState({ text: '', ok: true });
   const [version, setVersion] = useState(0);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function MyBookings() {
         setBookings(b.data);
         setPenalties(p.data);
       } catch (err) {
-        setMsg(err.response?.data?.message || 'Could not load your data');
+        setMsg({ text: err.response?.data?.message || 'Could not load your data', ok: false });
       }
     };
     load();
@@ -25,33 +27,44 @@ export default function MyBookings() {
 
   const reload = () => setVersion((v) => v + 1);
 
+  const tell = (text, ok = true) => {
+    setMsg({ text, ok });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const cancel = async (id) => {
-    if (!window.confirm('Cancel this booking?')) return;
+    const ok = await ask({ title: 'Cancel this booking?', confirmText: 'Cancel booking' });
+    if (!ok) return;
     try {
       await api.put('/bookings/' + id + '/cancel');
-      setMsg('Booking cancelled');
+      tell('Booking cancelled');
       reload();
     } catch (err) {
-      setMsg(err.response?.data?.message || 'Could not cancel');
+      tell(err.response?.data?.message || 'Could not cancel', false);
     }
   };
 
   const dispute = async (id) => {
-    const reason = window.prompt('Why do you dispute this charge?');
+    const reason = await ask({
+      title: 'Dispute this charge',
+      message: 'Why do you think this charge is wrong?',
+      input: true,
+      confirmText: 'Send dispute',
+    });
     if (!reason) return;
     try {
       await api.put('/penalties/' + id + '/dispute', { reason });
-      setMsg('Dispute sent to the admin');
+      tell('Dispute sent to the admin');
       reload();
     } catch (err) {
-      setMsg(err.response?.data?.message || 'Could not dispute');
+      tell(err.response?.data?.message || 'Could not dispute', false);
     }
   };
 
   return (
     <div>
       <h2>My bookings</h2>
-      {msg && <p className='muted'>{msg}</p>}
+      {msg.text && <p className={msg.ok ? 'success' : 'error'}>{msg.text}</p>}
 
       {bookings.length === 0 && (
         <p className='muted'>
@@ -84,7 +97,7 @@ export default function MyBookings() {
       {penalties.map((p) => (
         <div key={p._id} className='card'>
           <h3>
-            {p.type.replace('_', ' ')} · Rs {p.amount} <span className='badge'>{p.status}</span>
+            {p.type.replace(/_/g, ' ')} · Rs {p.amount} <span className='badge'>{p.status}</span>
           </h3>
           <p className='muted'>
             {p.car ? p.car.name : 'Car'} · {p.description || 'No description'}
@@ -97,6 +110,8 @@ export default function MyBookings() {
           )}
         </div>
       ))}
+
+      {dialog}
     </div>
   );
 }

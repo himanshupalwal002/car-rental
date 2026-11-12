@@ -1,2 +1,26 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Secrets (never upload these)
 .env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test and coverage output
+coverage/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
